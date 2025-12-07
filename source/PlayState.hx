@@ -97,8 +97,8 @@ class PlayState extends MusicBeatState
 	public static var songPosBG:FlxSprite;
 	public static var songPosBar:FlxBar;
 
-	var sus:String = "SUS";	
-	var charInputs:String;
+	var charInputs:String = "";
+	var sus:String = "SUS"; // or "SU" depending on what you want
 
 	public static var rep:Replay;
 	public static var loadRep:Bool = false;
@@ -172,10 +172,10 @@ class PlayState extends MusicBeatState
 
 	public static var offsetTesting:Bool = false;
 
+	public var dialogue:Array<String> = ['dad:blah blah blah', 'bf:coolswag'];
+
 	var notesHitArray:Array<Date> = [];
 	var currentFrames:Int = 0;
-
-	public var dialogue:Array<String> = ['dad:blah blah blah', 'bf:coolswag'];
 
 	var halloweenBG:FlxSprite;
 	var isHalloween:Bool = false;
@@ -300,7 +300,6 @@ class PlayState extends MusicBeatState
 		// To avoid having duplicate images in Discord assets
 		switch (iconRPC)
 		{
-
 		}
 
 		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
@@ -345,11 +344,51 @@ class PlayState extends MusicBeatState
 		switch (songLowercase)
 		{
 			case 'ron':
-						dialogue = CoolUtil.coolTextFile(Paths.txt('ron/ronIsBack'));
+				switch (FlxG.save.data.lang)
+				{
+					case 'es-la':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('ron/ronIsBackES'));
+					case 'en-us':
+						dialogue = [
+						":dad:hehehehehehehehehe i knew you'd do the funny",
+						":bf:bro i just realized why the fuck are you wearing a jumpsuit",
+						":dad:i'm wearing my pajamas (in a cool way)",
+						];
+					case 'pt-br':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('ron/ronIsBackPT'));
+					case 'ger':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('ron/ronIsBackgerman'));
+					case 'fr':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('ron/ronIsBackFR'));
+				}
 			case 'ayo':
+				switch (FlxG.save.data.lang)
+				{
+					case 'en-us':		
 						dialogue = CoolUtil.coolTextFile(Paths.txt('ayo/diaman'));
+					case 'es-la':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('ayo/diamanES'));
+					case 'pt-br':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('ayo/diamanPT'));
+					case 'ger':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('ayo/diamangerman'));
+					case 'fr':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('ayo/diamanFR'));
+				}
 			case 'bloodshed':
+				switch (FlxG.save.data.lang)
+				{
+					case 'en-us':
 						dialogue = CoolUtil.coolTextFile(Paths.txt('bloodshed/diamane'));
+					case 'es-la':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('bloodshed/diamaneES'));
+					case 'pt-br':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('bloodshed/diamanePT'));
+					case 'ger':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('bloodshed/diamanegerman'));
+					case 'fr':
+						dialogue = CoolUtil.coolTextFile(Paths.txt('bloodshed/diamaneFR'));
+				}
 			case 'trojan-virus':
 				{					
 					dialogue = [
@@ -853,6 +892,10 @@ class PlayState extends MusicBeatState
 				dad.x += 70;
 				dad.y += 250;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+			case 'ronb-old':
+				dad.x += 70;
+				dad.y += 250;
+				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'ron-usb':
 				dad.x += 70;
 				dad.y += 250;
@@ -865,7 +908,15 @@ class PlayState extends MusicBeatState
 				dad.x += 70;
 				dad.y += 250;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+			case 'factorytankman-2':
+				dad.x += 70;
+				dad.y += 250;
+				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'ron-usb-b':
+				dad.x += 70;
+				dad.y += 250;
+				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+			case 'tankmantrojan-2':
 				dad.x += 70;
 				dad.y += 250;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
@@ -902,7 +953,6 @@ class PlayState extends MusicBeatState
 				add(evilTrail);
 				// evilTrail.scrollFactor.set(1.1, 1.1);
 				}
-			
 				case 'NOGFHAHA':
 					gf.y -= 626742734737;
 		}
@@ -2053,6 +2103,7 @@ class PlayState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+checkCodeInput();
 
 		scoreTxt.text = Ratings.CalculateRanking(songScore,songScoreDef,nps,maxNPS,accuracy);
 
@@ -2583,12 +2634,17 @@ class PlayState extends MusicBeatState
 						}
 						//shakes the fuck out of your screen and hud -ekical
 						//now it drains your health because fuck you -ekical
-						if (dad.curCharacter == 'hellron')
-							{
-								FlxG.camera.shake(0.025, 0.1);
-								camHUD.shake(0.0055, 0.15);
-								health -= 0.005;
-							}
+if (dad.curCharacter == 'hellron')
+{
+    FlxG.camera.shake(0.025, 0.1);
+    camHUD.shake(0.0055, 0.15);
+
+    // Only drain health if the current song is NOT "run"
+    if (curSong != 'run')
+    {
+        health -= 0.005;
+    }
+}
 						
 						if (FlxG.save.data.cpuStrums)
 						{
@@ -2789,7 +2845,7 @@ class PlayState extends MusicBeatState
 	
 					if (storyPlaylist.length <= 0)
 						{
-							if (curSong == "Factory Reset")
+							if (curSong == "factory reset")
 							{
 								FlxG.switchState(new EndingState());
 							}else if (curSong.endsWith('-b'))
@@ -2929,7 +2985,7 @@ class PlayState extends MusicBeatState
 					score = -300;
 					combo = 0;
 					misses++;
-					health -= 0.2;
+					health -= 0;
 					ss = false;
 					shits++;
 					if (FlxG.save.data.accuracyMod == 0)
@@ -2937,7 +2993,7 @@ class PlayState extends MusicBeatState
 				case 'bad':
 					daRating = 'bad';
 					score = 0;
-					health -= 0.06;
+					health -= 0;
 					ss = false;
 					bads++;
 					if (FlxG.save.data.accuracyMod == 0)
@@ -3644,7 +3700,7 @@ class PlayState extends MusicBeatState
 					playerStrums.members[1].animation.play('static');
 					playerStrums.members[2].animation.play('static');
 					playerStrums.members[3].animation.play('static');
-					health -= 0.4;
+					health -= 0;
 					trace('mash ' + mashing);
 					if (mashing != 0)
 						mashing = 0;
@@ -4115,6 +4171,35 @@ class PlayState extends MusicBeatState
 				dad.playAnim('cheer', true);
 			}
 		}
+		//if (curSong == 'Factory-Reset-b')
+		//	{
+		//		if (curBeat == )
+		//		{
+		//			
+		//		}
+		//	}
 	}
+function checkCodeInput()
+{
+if (PlayState.SONG.song.toLowerCase() != "susshed")
+{
+    if (FlxG.keys.justPressed.S) {
+        charInputs += "S";
+        trace("Pressed S, charInputs = " + charInputs);
+    }
+    if (FlxG.keys.justPressed.U) {
+        charInputs += "U";
+        trace("Pressed U, charInputs = " + charInputs);
+    }
+
+    if (charInputs == sus) {
+        trace("sus inputted");
+
+var songName:String = Highscore.formatSong("Susshed", 2);
+SONG = Song.loadFromJson(songName, "Susshed");
+LoadingState.loadAndSwitchState(new PlayState());
+    }
+}
+}
 	var curLight:Int = 0;
 }

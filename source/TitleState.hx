@@ -51,6 +51,7 @@ class TitleState extends MusicBeatState
 	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;
 	var ngSpr:FlxSprite;
+	var logoChoice:String;
 
 	var curWacky:Array<String> = [];
 
@@ -236,7 +237,8 @@ class TitleState extends MusicBeatState
 
 		credTextShit.visible = false;
 
-		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('newgrounds_logo'));
+		logoChoice = FlxG.random.bool() ? 'notpatrick_logo' : 'newgrounds_logo';
+		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image(logoChoice));
 		add(ngSpr);
 		ngSpr.visible = false;
 		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
@@ -424,12 +426,17 @@ class TitleState extends MusicBeatState
 			// credTextShit.visible = false;
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
-			case 5:
-					createCoolText(['in association with']);
-			case 7:
-					addMoreText('not patrick');
-					ngSpr.visible = true;
-
+    case 5:
+        if (logoChoice == 'notpatrick_logo')
+            createCoolText(['in association with']);
+        else
+            createCoolText(['SHOUTOUTS TO']);
+    case 7:
+        if (logoChoice == 'notpatrick_logo')
+            addMoreText('not patrick');
+        else
+            addMoreText('WILDY');
+        ngSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
 			case 8:
 				deleteCoolText();

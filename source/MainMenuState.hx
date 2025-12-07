@@ -21,6 +21,7 @@ import Discord.DiscordClient;
 #end
 
 using StringTools;
+// your mother
 // cyber can we try to make the main menu better plz -ekical
 // yea but how? -cyber
 // idk we'll make it up as we go -ekical
@@ -69,7 +70,15 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-100).loadGraphic(Paths.image('menuBG'));
+// Decide which background to use with Math.random
+var bgKey:String = (Math.random() < 0.5) ? "menuBGRon" : "menuBG";
+trace("MainMenuState: bgKey chosen = " + bgKey);
+
+// Load the chosen background
+var bg:FlxSprite = new FlxSprite(-100).loadGraphic(Paths.image(bgKey));
+add(bg);
+
+
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.10;
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
@@ -84,7 +93,14 @@ class MainMenuState extends MusicBeatState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+// Decide which desat variant to use with Math.random
+var desatKey:String = (Math.random() < 0.5) ? "menuDesatRon" : "menuDesat";
+trace("MainMenuState: magenta chosen = " + desatKey);
+
+// Assign to the class-level magenta (no 'var' if you declared magenta at the top of the class)
+magenta = new FlxSprite(-80).loadGraphic(Paths.image(desatKey));
+
+
 		magenta.scrollFactor.x = 0;
 		magenta.scrollFactor.y = 0.10;
 		magenta.setGraphicSize(Std.int(magenta.width * 1.1));
