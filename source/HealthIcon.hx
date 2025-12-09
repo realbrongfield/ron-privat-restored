@@ -44,6 +44,7 @@ class HealthIcon extends FlxSprite
 		// ty :)
 		animation.add('ron', [24, 25], 0, false, isPlayer);
 		animation.add('ronsip', [24, 25], 0, false, isPlayer);
+		animation.add('phone', [24, 25], 0, false, isPlayer);
 		animation.add('ron-mad', [26, 27], 0, false, isPlayer);		
 		animation.add('hellron', [28, 29], 0, false, isPlayer);		
 		animation.add('ateloron', [28, 29], 0, false, isPlayer);
